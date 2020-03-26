@@ -1,0 +1,86 @@
+<!--On utilise le fichier base.hmtl qui nous sert de modèle grâce à la fonction
+extends. On ajoute ici ce qui est spécifique à la page index.html entre les blocs
+définis dans le fichier base.html qui sont des sortes de balises entre lesquelles
+ce que l'on rentre sera intégré au squelette de base.html. L'ensemble on le rappelle
+créera la page index.html. -->
+
+{% extends 'base.html' %}
+
+{% block head %}
+<!--Le titre de la page index.html-->
+<title>Task Master</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="content">
+	<!-- On écrit un titre entre les balises <h1> -->
+	<h1 style="text-align: center"> Task Master</h1>
+
+	<!--s'il y n'y a pas de tâche dans notre db-->
+	{% if tasks|length < 1 %}
+	<h4 style="text-align: center">There are no tasks. Create one below.</h4>
+	{% else %}
+	<!-- On crée un tableau entre les balises <table>-->
+	<table>
+		<!--On crée une ligne dans ce tableau entre les balises <tr>. tr 
+		signifie "table row". On crée ici un tableau à 3 colonnes. La 
+		première de ce tableau reprend le nom des 3 colonnes.-->
+		<tr>
+			<!-- On nomme les lignes entre les balises <th>. th signifie
+			"table header". La première colonne s'appelle "Task" et elle
+			 stockera le nom de la tâche.-->
+			<th>Task</th>
+			<!--La seconde colonne s'appelle "Added" et elle stockera la
+			 date de création de la tâche.-->
+			<th>Added</th>
+			<!-- La troisième colonne s'appelle "Actions".-->
+			<th>Actions</th>
+		</tr>
+		<!--Pour chaque tâche stockée dans la variable tasks de app.py-->
+		{% for task in tasks %}
+			<!--On crée une seconde ligne qui stockera les valeurs de chaque
+			tâche. Ces valeurs seront stockées dans des cellules. Une cellule
+			est encadrée par des balises <td>. -->
+			<tr>
+				<!--On renvoie dans la première cellule de cette ligne le content de la tâche
+				que l'on va cherche dans la classe Todo de notre db-->
+				<td>{{ task.content }}</td>
+				
+				<!--La seconde cellule de cette ligne, on renvoie la date de création de la tâche que l'on
+				convertit en date avec la fonction date(). Cela nous évite d'obtenir l'heure qui est inclue
+				dans date_created.-->
+				<td>{{ task.date_created.date() }}</td>
+				<!-- Cette dernière cellule permet de supprimer ou de 
+				mettre à jour une tâche. Si l'utilisateur sélectionne
+				l'une de ces deux actions il sera renvoyé vers une 
+				nouvelle page dont le chemin est contenu dans la 
+				variable href.-->
+				<td>
+					<!-- Les balises <a> encadrent un hyperlien
+					qui est stocké dans la variable href. On lie
+					ici notre page index.html à une autre route. Il s'agit ici de la route qui
+					mène à la fonction delete() définit dans app.py et qui permet de supprimer une
+					tâche.-->
+					<a href="/delete/{{task.id}}">Delete</a>
+					<br>
+					<a href="/update/{{task.id}}">Update</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+
+	<!-- On crée ensuite un formulaire. action='url vers lequel on envoie les données remplies par l'utilisateur'. Ici "/"
+	correspond à l'url de notre page index.html. Le paramètre method définit la méthode qui sera utilisé pour communiquer
+	avec l'url en question. Ici POST signifie que l'on envoie ces données à index.html.-->
+	<form action="/" method="POST">
+		<!--On crée ensuite deux entrées (deux champs, deux input) dans ce formulaire. Un champ content qui a comme id
+		 "content" et qui sera rempli par une chaîne de caractères:-->
+		<input type="text" name="content" id="content">
+		<!--Et un champ de type submit càd un bouton sur lequel on pourra cliquer et sur lequel il sera écrit "Add Task" -->
+		<input type="submit" value="Add Task">
+	</form>
+
+</div>
+{% endblock %}

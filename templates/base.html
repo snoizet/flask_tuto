@@ -1,0 +1,27 @@
+<!--Ce fichier base.html est le "skeleton", càd le squelette qui pourra être
+réutilisé dans chacune des pages de notre site. En invoquant base.html dans les
+différentes pages html de notre site on évite d'avoir à réécrire pour chaque page
+l'intégralité du code de la page. On n'aura ainsi qu'à écrire pour chaque page ce
+qui est propre à la page en question.-->
+
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- On lie le style définit dans le fichier main.css à notre page base.html 
+grâce à la fonction de flask url_for qui va ici chercher dans le répertoire static
+le fichier main.css qui se trouve dans le sous-répertoire css-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+        
+<!--Les blocs que nous créons ci-dessous seront les endroits où l'on pourra
+insérer du code propre à une page en particulier.-->
+	{% block head %}{% endblock %}
+</head>
+<body>
+        {% block body %}{% endblock %}
+</body>
+</html>

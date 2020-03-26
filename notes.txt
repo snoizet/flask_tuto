@@ -1,0 +1,5 @@
+Avant de lancer l'application, penser à activer l'environnement virtuel en tapant:
+source env/bin/activate
+
+https://www.youtube.com/watch?v=Z1RJmh_OqeA
+arrêt à 23:09

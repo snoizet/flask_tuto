@@ -1,0 +1,29 @@
+<!--On utilise le fichier base.hmtl qui nous sert de modèle grâce à la fonction
+extends. On ajoute ici ce qui est spécifique à la page index.html entre les blocs
+définis dans le fichier base.html qui sont des sortes de balises entre lesquelles
+ce que l'on rentre sera intégré au squelette de base.html. L'ensemble on le rappelle
+créera la page index.html. -->
+
+{% extends 'base.html' %}
+
+{% block head %}
+<!--Le titre de la page index.html-->
+<title>Task Master</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="content">
+	<!-- On écrit un titre entre les balises <h1> -->
+	<h1 style="text-align: center"> Update Task</h1>
+
+	<form action="/update/{{task.id}}" method="POST">
+		<!--On crée ensuite deux entrées (deux champs, deux input) dans ce formulaire. Un champ content qui a comme id
+		 "content" et qui sera rempli par une chaîne de caractères:-->
+		<input type="text" name="content" id="content" value="{{task.content}}">
+		<!--Et un champ de type submit càd un bouton sur lequel on pourra cliquer et sur lequel il sera écrit "Add Task" -->
+		<input type="submit" value="Update">
+	</form>
+
+</div>
+{% endblock %}
